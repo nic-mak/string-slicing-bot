@@ -20,6 +20,7 @@ def get_random_start_stop_step(s):
     n = len(s)
     i_min, i_max = -n, n - 1
     result = [random.randint(i_min, i_max) for _ in range(3)]
+    result[-1] = random.randint(-3, 3)  # Restrict step to between -3 and 3
     return result
 
 
@@ -28,13 +29,13 @@ def get_question():
     start, stop, step = get_random_start_stop_step(random_string)
 
     random_roll = random.randint(1, 10)
-    if random_roll <= 3:  # P(only start index) = 0.3
+    if random_roll <= 2:  # P(only start index) = 0.2
         question_string = f'{random_string}[{start}]'
         answer_string = random_string[start]
-    elif random_roll <= 7:  # P(start:stop) = 0.4
+    elif random_roll <= 6:  # P(start:stop) = 0.4
         question_string = f'{random_string}[{start}:{stop}]'
         answer_string = random_string[start:stop]
-    else:  # P(start:stop:step) = 0.3
+    else:  # P(start:stop:step) = 0.4
         question_string = f'{random_string}[{start}:{stop}:{step}]'
         answer_string = random_string[start:stop:step] if step != 0 else 'ValueError'
 
