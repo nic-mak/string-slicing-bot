@@ -46,6 +46,11 @@ def get_question():
 
 
 def main():
+    f = open('art.txt', 'r')
+    print(''.join([line for line in f.readlines()]))
+    print('\nPlease do not distribute this bot.')
+    print('Implemented by Nicholas Mak\n')
+
     question_number = 1
     while True:
         question_string, answer_string = get_question()
