@@ -50,8 +50,7 @@ def main():
         question_string, answer_string = get_question()
         print(f'Question Number {question_number}')
         print(question_string)
-        print('Input your answer:')
-        user_input = input()
+        user_input = input('Input your answer: ')
         print(f'Expected answer: {answer_string}\n')
         question_number += 1
 
