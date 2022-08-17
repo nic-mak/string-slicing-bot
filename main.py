@@ -1,5 +1,7 @@
+import os
 import random
 import string
+import sys
 
 CONSTANT_STRING_LENGTH_MIN = 3
 CONSTANT_STRING_LENGTH_MAX = 10
@@ -46,7 +48,8 @@ def get_question():
 
 
 def main():
-    f = open('art.txt', 'r')
+    # f = open('art.txt', 'r')
+    f = open(os.path.join(sys._MEIPASS, 'art.txt'), 'r')  # For use with Pyinstaller
     print(''.join([line for line in f.readlines()]))
     print('\nPlease do not distribute this bot.')
     print('Implemented by Nicholas Mak\n')
