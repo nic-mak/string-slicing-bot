@@ -47,9 +47,19 @@ def get_question():
     return question_string, answer_string
 
 
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
+
 def main():
-    # f = open('art.txt', 'r')
-    f = open(os.path.join(sys._MEIPASS, 'art.txt'), 'r')  # For use with Pyinstaller
+    f = open(resource_path('art.txt'), 'r')
     print(''.join([line for line in f.readlines()]))
     print('\nPlease do not distribute this bot.')
     print('Implemented by Nicholas Mak\n')
