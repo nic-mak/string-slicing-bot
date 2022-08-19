@@ -26,23 +26,40 @@ def get_random_start_stop_step(s):
     return result
 
 
+def parse_question(random_string, start, stop=None, step=None):
+    if step is None and stop is None:
+        question_string = f'{random_string}[{start}]'
+        answer_string = random_string[start]
+    elif step is None:  # and stop is not None
+        question_string = f'{random_string}[{start}:{stop}]'
+        answer_string = random_string[start:stop]
+    else:
+        question_string = f'{random_string}[{start}:{stop}:{step}]'
+        answer_string = random_string[start:stop:step] if step != 0 else 'ValueError'
+
+    if not answer_string:
+        answer_string = 'EMPTY'
+    return question_string, answer_string
+
+
 def get_question():
     random_string = get_random_string()
     start, stop, step = get_random_start_stop_step(random_string)
 
     random_roll = random.randint(1, 10)
     if random_roll <= 2:  # P(only start index) = 0.2
-        question_string = f'{random_string}[{start}]'
-        answer_string = random_string[start]
+        question_string, answer_string = parse_question(random_string, start)
     elif random_roll <= 6:  # P(start:stop) = 0.4
-        question_string = f'{random_string}[{start}:{stop}]'
-        answer_string = random_string[start:stop]
+        question_string, answer_string = parse_question(random_string, start, stop)
     else:  # P(start:stop:step) = 0.4
-        question_string = f'{random_string}[{start}:{stop}:{step}]'
-        answer_string = random_string[start:stop:step] if step != 0 else 'ValueError'
+        question_string, answer_string = parse_question(random_string, start, stop, step)
 
-    if not answer_string:
-        answer_string = 'EMPTY'
+    # Extra code to reduce chances of empty string (empirically found that it's empty most of the time)
+    if answer_string == 'EMPTY':
+        if 3 <= random_roll <= 5:  # i.e. only start, stop  # 3/4 chance to swap start and stop
+            question_string, answer_string = parse_question(random_string, stop, start)
+        elif 7 <= random_roll <= 9:  # 3/4 chance to swap start and stop
+            question_string, answer_string = parse_question(random_string, stop, start, step)
 
     return question_string, answer_string
 
