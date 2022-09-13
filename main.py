@@ -105,6 +105,7 @@ class StringSlicingBot:
         """
         handlers = [
             CommandHandler('start', self.command_start),
+            CommandHandler("cancel", self.command_cancel),
             ConversationHandler(
                 entry_points=[CommandHandler('question', self.command_question)],
                 states={
