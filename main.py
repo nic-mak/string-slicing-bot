@@ -6,6 +6,8 @@ import sys
 CONSTANT_STRING_LENGTH_MIN = 3
 CONSTANT_STRING_LENGTH_MAX = 10
 
+EMPTY_STRING = "\'\'"
+
 
 def get_random_string_fixed_length(n):
     letters = string.ascii_lowercase
@@ -28,17 +30,17 @@ def get_random_start_stop_step(s):
 
 def parse_question(random_string, start, stop=None, step=None):
     if step is None and stop is None:
-        question_string = f'{random_string}[{start}]'
+        question_string = f"\'{random_string}\'[{start}]"
         answer_string = random_string[start]
     elif step is None:  # and stop is not None
-        question_string = f'{random_string}[{start}:{stop}]'
+        question_string = f'\'{random_string}\'[{start}:{stop}]'
         answer_string = random_string[start:stop]
     else:
-        question_string = f'{random_string}[{start}:{stop}:{step}]'
+        question_string = f'\'{random_string}\'[{start}:{stop}:{step}]'
         answer_string = random_string[start:stop:step] if step != 0 else 'ValueError'
 
     if not answer_string:
-        answer_string = 'EMPTY'
+        answer_string = EMPTY_STRING
     return question_string, answer_string
 
 
@@ -55,7 +57,7 @@ def get_question():
         question_string, answer_string = parse_question(random_string, start, stop, step)
 
     # Extra code to reduce chances of empty string (empirically found that it's empty most of the time)
-    if answer_string == 'EMPTY':
+    if answer_string == EMPTY_STRING:
         if 3 <= random_roll <= 5:  # i.e. only start, stop  # 3/4 chance to swap start and stop
             question_string, answer_string = parse_question(random_string, stop, start)
         elif 7 <= random_roll <= 9:  # 3/4 chance to swap start and stop
@@ -78,7 +80,6 @@ def resource_path(relative_path):
 def main():
     f = open(resource_path('art.txt'), 'r')
     print(''.join([line for line in f.readlines()]))
-    print('\nPlease do not distribute this bot.')
     print('Implemented by Nicholas Mak\n')
 
     question_number = 1
